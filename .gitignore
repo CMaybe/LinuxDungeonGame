@@ -46,3 +46,5 @@ CTestTestfile.cmake
 _deps
 /build
 /bin
+
+goorm.manifest
