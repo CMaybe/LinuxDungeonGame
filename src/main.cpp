@@ -1,22 +1,21 @@
 #include <iostream>
-#include <DungeonGame/Dungeon/Generator.hpp>
+#include <DungeonGame/Dungeon/Dungeon.hpp>
 #include <DungeonGame/utill/Input.hpp>
 #include <cstdlib>
 #include <vector>
 
 
 
-using namespace Dungeon;
+using namespace LinuxDungeon;
 
 
 
 int main(int argc, char* argv[]) {
-	Generator generator(Dungeons::BSP,80,40,3); // (Dungeons &_type,const int & _width,const int & _height, const int & _depth)
-	bool s = generator.generateDungeon();
-	std::vector<std::vector<int>> dungeon = generator.getDungeon();
-	dungeon[34][43]=0;
-	
+	Dungeon dungeon(Dungeons::BSP,80,40,3); // (Dungeons &_type,const int & _width,const int & _height, const int & _depth)
+	bool s = dungeon.generateDungeon();
+	dungeon.print();
 	int ch = 0;
+	
  
     while(1){
         ch = getch();

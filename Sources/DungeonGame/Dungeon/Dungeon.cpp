@@ -1,9 +1,9 @@
-#include <DungeonGame/Dungeon/Generator.hpp>
+#include <DungeonGame/Dungeon/Dungeon.hpp>
 
-using namespace Dungeon;
+using namespace LinuxDungeon;
 
 
-Generator::Generator(const Dungeons &_type,const int & _width,const int & _height, const int & _depth){
+Dungeon::Dungeon(const Dungeons &_type,const int & _width,const int & _height, const int & _depth){
 	std::srand(std::time(nullptr));
 	this->width  = _width;  
 	this->height = _height; 
@@ -15,7 +15,7 @@ Generator::Generator(const Dungeons &_type,const int & _width,const int & _heigh
 	}
 }
 
-void Generator::init(int tile){
+void Dungeon::init(int tile){
 	for(int i = 0;i<this->dungeon.size(); i++){
 		for(int j = 0;j<this->dungeon[0].size(); j++){
 			this->dungeon[i][j]=WALL;
@@ -29,7 +29,7 @@ void Generator::init(int tile){
 	}
 }
 
-void Generator::print(){
+void Dungeon::print(){
 	std::string output="";
 	
 	for(int i = 0;i<this->dungeon.size();i++){
@@ -41,7 +41,7 @@ void Generator::print(){
 				case ROOM:
 					output+="  ";
 					break;
-				case tunnel:
+				case TUNNEL:
 					output+=" `";
 					break;
 				case WALL:
@@ -50,6 +50,8 @@ void Generator::print(){
 				case LINE:
 					output+=" +";
 					break;
+				case PLAYER:
+					output+="●";
 			}
 		}
 		output+='\n';
@@ -57,7 +59,7 @@ void Generator::print(){
 	std::cout<<output;
 }
 
-Edge Generator::BSP(int x1,int y1,int x2, int y2, bool flag, int cnt){
+Edge Dungeon::BSP(int x1,int y1,int x2, int y2, bool flag, int cnt){
 	if(cnt==depth){
 		x1 += std::rand() % 3 +2;
 		if(x1<1) x1=1;
@@ -102,24 +104,24 @@ Edge Generator::BSP(int x1,int y1,int x2, int y2, bool flag, int cnt){
 		}while(this->dungeon[up][t_x1]!=ROOM || this->dungeon[down][t_x2]!=ROOM);
 		bool pflag=true;
 		for(int i = t_x1+1;i<t_x2;i++){
-			if(this->dungeon[up][i]==tunnel || this->dungeon[up][i]==LINE){
-				this->dungeon[up][i]=tunnel;
+			if(this->dungeon[up][i]==TUNNEL || this->dungeon[up][i]==LINE){
+				this->dungeon[up][i]=TUNNEL;
 				int dir = up < down ? 1 : -1;
 				int j = 0;
 				for(j = up;j!=down;j+=dir){
-					this->dungeon[j][i]=tunnel;
+					this->dungeon[j][i]=TUNNEL;
 				}
-				this->dungeon[j][i]=tunnel;
+				this->dungeon[j][i]=TUNNEL;
 				pflag = false;
 				continue;
 			}
 			if(pflag){
 				if(this->dungeon[up][i]==ROOM) break;
-				this->dungeon[up][i]=tunnel;
+				this->dungeon[up][i]=TUNNEL;
 			}
 			else{
 				if(this->dungeon[down][i]==ROOM) break;
-				this->dungeon[down][i]=tunnel;
+				this->dungeon[down][i]=TUNNEL;
 			}
 		}
 		return Edge{p1.x1,std::min(p1.y1,p2.y1),p2.x2,std::max(p1.y2,p2.y2)};
@@ -147,24 +149,24 @@ Edge Generator::BSP(int x1,int y1,int x2, int y2, bool flag, int cnt){
 		}while(this->dungeon[t_y1][left]!=ROOM || this->dungeon[t_y2][right]!=ROOM);
 		bool pflag=true;
 		for(int i = t_y1+1;i<t_y2;i++){
-			if(this->dungeon[i][left]==tunnel || this->dungeon[i][left]==LINE){
-				this->dungeon[i][left]=tunnel;
+			if(this->dungeon[i][left]==TUNNEL || this->dungeon[i][left]==LINE){
+				this->dungeon[i][left]=TUNNEL;
 				int dir = left < right ? 1 : -1;
 				int j = 0;
 				for(j = left;j!=right;j+=dir){
-					this->dungeon[i][j]=tunnel;
+					this->dungeon[i][j]=TUNNEL;
 				}
-				this->dungeon[i][j]=tunnel;
+				this->dungeon[i][j]=TUNNEL;
 				pflag = false;
 				continue;
 			}
 			if(pflag){
 				if(this->dungeon[i][left]==ROOM) break;
-				this->dungeon[i][left]=tunnel;
+				this->dungeon[i][left]=TUNNEL;
 			}
 			else{
 				if(this->dungeon[i][left]==ROOM) break;
-				this->dungeon[i][right]=tunnel;
+				this->dungeon[i][right]=TUNNEL;
 			} 
 		}
 		return Edge{std::min(p1.x1,p2.x1),p1.y1,std::max(p1.x2,p2.x2),p2.y2};
@@ -172,7 +174,7 @@ Edge Generator::BSP(int x1,int y1,int x2, int y2, bool flag, int cnt){
 	return Edge{t_x1,t_y1,t_x2,t_y2};
 }
 
-void Generator::pre2Real(){
+void Dungeon::pre2Real(){
 	for(int i = 0;i<this->dungeon.size();i++){
 		for(int j = 0;j<this->dungeon.size();j++){
 			if(this->dungeon[i][j]==PRE_WALL) this->dungeon[i][j] = WALL;
@@ -181,7 +183,7 @@ void Generator::pre2Real(){
 	}
 }
 
-void Generator::Cellular_Automata(const int wall_ratio,const int wall_effected,const int room_effected, int count){
+void Dungeon::Cellular_Automata(const int wall_ratio,const int wall_effected,const int room_effected, int count){
 	int wall_cnt = (this->dungeon[0].size()-2)*(this->dungeon.size()-2)*wall_ratio/100;
 	int cnt = 0;
 	while(cnt++<wall_cnt){
@@ -237,18 +239,18 @@ void Generator::Cellular_Automata(const int wall_ratio,const int wall_effected,c
 	return;
 }
 
-const std::vector<std::vector<int>> & Generator::getDungeon() const {
+const std::vector<std::vector<int>> & Dungeon::getDungeon() const {
 	return this->dungeon;
 }
 
-bool Generator::generateDungeon(){
+bool Dungeon::generateDungeon(){
 	try{
 		switch(this->type){
 			case Dungeons::BSP:
 				BSP(1,1,this->width-1,this->height-1,H,0);
 				break;
 				
-			case Dungeons::CElluar_Automata:
+			case Dungeons::Celluar_Automata:
 				Cellular_Automata(20,4,7,7);
 				break;
 		}
@@ -257,3 +259,20 @@ bool Generator::generateDungeon(){
     }
 	return true;
 }
+
+
+int& Dungeon::operator()(const int& row, const int& col) {
+	return this->dungeon[row][col];
+}
+
+const int& Dungeon::operator()(const int& row, const int& col) const {
+	return this->dungeon[row][col];
+}
+
+int Dungeon::getWidth() const {
+	return this->width;
+}
+int Dungeon::getHeight() const {
+	return this->height;
+}
+

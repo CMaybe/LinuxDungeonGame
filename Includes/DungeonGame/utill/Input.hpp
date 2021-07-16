@@ -7,7 +7,7 @@
 #define LEFT 	68
 
 
-namespace Dungeon{
+namespace LinuxDungeon{
 
 	static struct termios old, newp;
 

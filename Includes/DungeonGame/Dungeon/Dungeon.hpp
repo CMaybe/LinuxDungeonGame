@@ -8,17 +8,18 @@
 #define H true
 #define W false
 
+#define PLAYER		7
 #define PRE_WALL	6
 #define PRE_ROOM	5
 #define LINE		4
 #define WALL 		3
-#define tunnel 		2
+#define TUNNEL 		2
 #define ROOM		1
 #define NONE 		0
 
 
 
-namespace Dungeon{
+namespace LinuxDungeon{
 	typedef struct EDGE{
 		int x1;
 		int y1;
@@ -28,10 +29,11 @@ namespace Dungeon{
 
 	enum class Dungeons{
 		BSP,
-		CElluar_Automata
+		Celluar_Automata
 	};
+
 	
-	class Generator{
+	class Dungeon{
 		private:
 			int width,height,depth;
 			Dungeons type;
@@ -40,14 +42,21 @@ namespace Dungeon{
 			void pre2Real();
 
 		public:
-			Generator(const Dungeons &_type,const int & _width = 50,const int & _height = 50, const int & _depth = 5);
+			Dungeon(const LinuxDungeon::Dungeons &_type,const int & _width = 50,const int & _height = 50, const int & _depth = 5);
 		
-			virtual ~Generator(){};
+			virtual ~Dungeon(){};
 			const std::vector<std::vector<int>> & getDungeon() const;
 			bool generateDungeon();
 			void print();
-			Dungeon::Edge BSP(int x1,int y1,int x2, int y2, bool flag, int cnt);
+			LinuxDungeon::Edge BSP(int x1,int y1,int x2, int y2, bool flag, int cnt);
 			void Cellular_Automata(const int wall_ratio,const int wall_effected,const int room_effected, int count);
+		
+			int& operator()(const int& row, const int& col);
+			const int& operator()(const int& row, const int& col) const;
+		
+			int getWidth() const;
+			int getHeight() const;
+		
 		
 			
 
