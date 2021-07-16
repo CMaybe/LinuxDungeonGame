@@ -48,6 +48,8 @@ namespace Dungeon{
 			void print();
 			Dungeon::Edge BSP(int x1,int y1,int x2, int y2, bool flag, int cnt);
 			void Cellular_Automata(const int wall_ratio,const int wall_effected,const int room_effected, int count);
+		
+			
 
 	};
 	
