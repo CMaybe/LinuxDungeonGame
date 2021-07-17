@@ -17,9 +17,7 @@ int main(int argc, char* argv[]) {
 	dungeon.print();
 	int ch = 0;
 	
- 
     while(1){
-		gotoxy(0,0);
         ch = getch();
         if(ch != 0){
 			gotoxy(0,0);
@@ -27,7 +25,7 @@ int main(int argc, char* argv[]) {
         }
         if(ch == 3){
             return 0;
-        }         
+        }
 	}
 	return 0;
 }

@@ -3,6 +3,9 @@
 
 #include <termios.h>
 #include <cstdio>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/time.h>
 
 #define UP 		65
 #define DOWN 	66
@@ -31,6 +34,8 @@ namespace LinuxGame{
 	char getche(void);
 	
 	void gotoxy(int x,int y);
+	
+	int kbhit (void);
 }
 
 
