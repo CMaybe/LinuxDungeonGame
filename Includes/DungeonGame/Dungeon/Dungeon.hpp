@@ -38,8 +38,9 @@ namespace LinuxGame{
 	
 	class Dungeon{
 		private:
-			int width,height,depth,playerX,playerY;
+			int width,height,depth,playerX,playerY,preX,preY, preBlock;
 			int wall_ratio, wall_effected, room_effected, count;
+		
 			Dungeons type;
 			std::vector<std::vector<int>> dungeon;
 			void init(int tile);
@@ -52,13 +53,14 @@ namespace LinuxGame{
 			virtual ~Dungeon(){};
 			const std::vector<std::vector<int>> & getDungeon() const;
 			bool generateDungeon();
-			void setPlayer(int x,int y);
 			void print();
+			void setPlayer(const int &x, const int & y);
+			void movePlayer(const int &dx, const int & dy);
 			LinuxGame::Edge BSP(int x1,int y1,int x2, int y2, bool flag, int cnt);
 			void Cellular_Automata();
 		
-			int& operator()(const int& row, const int& col);
-			const int& operator()(const int& row, const int& col) const;
+			int& operator()(const int& x, const int& y);
+			const int& operator()(const int& x, const int& y) const;
 		
 			int getWidth() const;
 			int getHeight() const;

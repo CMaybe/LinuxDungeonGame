@@ -6,6 +6,8 @@ namespace LinuxGame{
 	/* Initialize new terminal i/o settings */
 	void initTermios(int echo) 
 	{
+		if(init) return;
+		init = true;
 		tcgetattr(STDIN_FILENO, &old); /* grab old terminal i/o settings */
 		newp = old; /* make new settings same as old settings */
 		newp.c_lflag &= ~ICANON; /* disable buffered i/o */
@@ -26,7 +28,10 @@ namespace LinuxGame{
 		initTermios(echo);
 		if(!kbhit()) return ch;
 		ch = getchar();
-		resetTermios();
+		while(!(ch == UP || ch==DOWN || ch==LEFT || ch==RIGHT)){
+			ch = getchar();
+		}
+		// resetTermios();
 		return ch;
 	}
 
@@ -34,7 +39,6 @@ namespace LinuxGame{
 	char getch(void) 
 	{
 		char ch = getch_(0);
-		if(ch==27){getch_(0);ch=getch_(0); }
 		return ch;
 	}
 
@@ -42,11 +46,10 @@ namespace LinuxGame{
 	char getche(void) 
 	{
 		char ch = getch_(1);
-		if(ch==27){getch_(1);ch=getch_(1); }
 		return ch;
 	}
 
-	void gotoxy(int x,int y)
+	void gotoxy(const int &x, const int & y)
 	{
 		printf("%c[%d;%df",0x1B,y,x);
 	}
@@ -66,6 +69,7 @@ namespace LinuxGame{
 		  return FD_ISSET(STDIN_FILENO, &rdfs);
 
 	}
+	
 
 }
 

@@ -17,7 +17,7 @@
 namespace LinuxGame{
 
 	static struct termios old, newp;
-
+	static bool init = false;
 	/* Initialize new terminal i/o settings */
 	void initTermios(int echo);
 
@@ -33,7 +33,7 @@ namespace LinuxGame{
 	/* Read 1 character with echo */
 	char getche(void);
 	
-	void gotoxy(int x,int y);
+	void gotoxy(const int &x, const int & y);
 	
 	int kbhit (void);
 }

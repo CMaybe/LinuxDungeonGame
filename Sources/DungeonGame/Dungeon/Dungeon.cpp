@@ -9,6 +9,8 @@ using namespace LinuxGame;
 
 Dungeon::Dungeon(const Dungeons &_type,const int & _width,const int & _height, const int & _depth){
 	std::srand(std::time(nullptr));
+	this->playerX = 0;
+	this->playerY = 0;
 	this->width  = _width;  
 	this->height = _height; 
 	this->depth  = _depth; 
@@ -21,6 +23,8 @@ Dungeon::Dungeon(const Dungeons &_type,const int & _width,const int & _height, c
 
 Dungeon::Dungeon(const LinuxGame::Dungeons &_type,const int & _width,const int & _height,const int _wall_ratio,const int _wall_effected,const int _room_effected, int _count){
 	std::srand(std::time(nullptr));
+	this->playerX = 0;
+	this->playerY = 0;
 	this->width  = _width;  
 	this->height = _height; 
 	this->wall_ratio  = _wall_ratio; 
@@ -69,7 +73,7 @@ void Dungeon::print(){
 					output+=" +";
 					break;
 				case PLAYER:
-					output+="●";
+					output+=" a";
 			}
 		}
 		output+='\n';
@@ -279,12 +283,12 @@ bool Dungeon::generateDungeon(){
 }
 
 
-int& Dungeon::operator()(const int& row, const int& col) {
-	return this->dungeon[row][col];
+int& Dungeon::operator()(const int& x, const int& y) {
+	return this->dungeon[y][x];
 }
 
-const int& Dungeon::operator()(const int& row, const int& col) const {
-	return this->dungeon[row][col];
+const int& Dungeon::operator()(const int& x, const int& y) const {
+	return this->dungeon[y][x];
 }
 
 int Dungeon::getWidth() const {
@@ -292,6 +296,34 @@ int Dungeon::getWidth() const {
 }
 int Dungeon::getHeight() const {
 	return this->height;
+}
+
+void Dungeon::movePlayer(const int &dx, const int & dy){
+	if(dungeon[playerY+dy][playerX+dx]!=ROOM && dungeon[playerY+dy][playerX+dx]!=TUNNEL) return;
+	if(playerX+dx <1 ||playerY+dy <1 || playerX+dx >= width - 1 || playerY+dy >= height - 1) return;
+	setPlayer(playerX+dx,playerY + dy);
+}
+
+void Dungeon::setPlayer(const int &x, const int & y){
+	
+	if(dungeon[y][x]!=ROOM && dungeon[y][x]!=TUNNEL) return;
+	if(playerX*playerY != 0){
+		preX = playerX;
+		preY = playerY;
+		dungeon[preY][preX] = preBlock;
+	}
+	else{
+		preX = x;
+		preY = y;
+		preBlock = ROOM;
+	}
+	
+	playerX = x;
+	playerY = y;
+	
+	preBlock = dungeon[playerY][playerX];
+	dungeon[playerY][playerX]=PLAYER;
+	
 }
 
 #endif
