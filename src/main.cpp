@@ -1,12 +1,13 @@
-#include <iostream>
 #include <DungeonGame/Dungeon/Dungeon.hpp>
 #include <DungeonGame/utill/Input.hpp>
+
+#include <iostream>
 #include <cstdlib>
 #include <vector>
 
 
 
-using namespace LinuxDungeon;
+using namespace LinuxGame;
 
 
 
@@ -18,9 +19,10 @@ int main(int argc, char* argv[]) {
 	
  
     while(1){
+		gotoxy(0,0);
         ch = getch();
-		if(ch==27){getch();ch=getch(); }
         if(ch != 0){
+			gotoxy(0,0);
             printf("%d\n\r",ch);
         }
         if(ch == 3){

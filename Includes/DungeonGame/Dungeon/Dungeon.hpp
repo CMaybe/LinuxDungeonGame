@@ -1,10 +1,13 @@
+#ifndef LINUX_GAME_DUNGEON_HPP
+#define LINUX_GAME_DUNGEON_HPP
+
+
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <string>
 #include <algorithm>
 #include <vector>
-
 #define H true
 #define W false
 
@@ -19,7 +22,7 @@
 
 
 
-namespace LinuxDungeon{
+namespace LinuxGame{
 	typedef struct EDGE{
 		int x1;
 		int y1;
@@ -35,21 +38,24 @@ namespace LinuxDungeon{
 	
 	class Dungeon{
 		private:
-			int width,height,depth;
+			int width,height,depth,playerX,playerY;
+			int wall_ratio, wall_effected, room_effected, count;
 			Dungeons type;
 			std::vector<std::vector<int>> dungeon;
 			void init(int tile);
 			void pre2Real();
 
 		public:
-			Dungeon(const LinuxDungeon::Dungeons &_type,const int & _width = 50,const int & _height = 50, const int & _depth = 5);
+			Dungeon(const LinuxGame::Dungeons &_type,const int & _width,const int & _height, const int & _depth);
+			Dungeon(const LinuxGame::Dungeons &_type,const int & _width ,const int & _height ,const int _wall_ratio, const int _wall_effected, const int _room_effected, int _count);
 		
 			virtual ~Dungeon(){};
 			const std::vector<std::vector<int>> & getDungeon() const;
 			bool generateDungeon();
+			void setPlayer(int x,int y);
 			void print();
-			LinuxDungeon::Edge BSP(int x1,int y1,int x2, int y2, bool flag, int cnt);
-			void Cellular_Automata(const int wall_ratio,const int wall_effected,const int room_effected, int count);
+			LinuxGame::Edge BSP(int x1,int y1,int x2, int y2, bool flag, int cnt);
+			void Cellular_Automata();
 		
 			int& operator()(const int& row, const int& col);
 			const int& operator()(const int& row, const int& col) const;
@@ -63,3 +69,5 @@ namespace LinuxDungeon{
 	};
 	
 }
+
+#endif

@@ -1,6 +1,10 @@
-#include <DungeonGame/Dungeon/Dungeon.hpp>
+#ifndef LINUX_GAME_DUNGEON_CPP
+#define LINUX_GAME_DUNGEON_CPP
 
-using namespace LinuxDungeon;
+#include <DungeonGame/Dungeon/Dungeon.hpp>
+#include <DungeonGame/utill/Input.hpp>
+
+using namespace LinuxGame;
 
 
 Dungeon::Dungeon(const Dungeons &_type,const int & _width,const int & _height, const int & _depth){
@@ -9,6 +13,20 @@ Dungeon::Dungeon(const Dungeons &_type,const int & _width,const int & _height, c
 	this->height = _height; 
 	this->depth  = _depth; 
 	this->type   = _type;
+	this->dungeon.resize(_height);
+	for(int i = 0;i<_height;i++){
+		this->dungeon[i].resize(_width);
+	}
+}
+
+Dungeon::Dungeon(const LinuxGame::Dungeons &_type,const int & _width,const int & _height,const int _wall_ratio,const int _wall_effected,const int _room_effected, int _count){
+	std::srand(std::time(nullptr));
+	this->width  = _width;  
+	this->height = _height; 
+	this->wall_ratio  = _wall_ratio; 
+	this->wall_effected   = _wall_effected;
+	this->room_effected  = _room_effected; 
+	this->count   = _count;
 	this->dungeon.resize(_height);
 	for(int i = 0;i<_height;i++){
 		this->dungeon[i].resize(_width);
@@ -31,7 +49,7 @@ void Dungeon::init(int tile){
 
 void Dungeon::print(){
 	std::string output="";
-	
+	gotoxy(0,0);
 	for(int i = 0;i<this->dungeon.size();i++){
 		for(int j = 0;j<this->dungeon[0].size();j++){
 			switch(this->dungeon[i][j]){
@@ -183,7 +201,7 @@ void Dungeon::pre2Real(){
 	}
 }
 
-void Dungeon::Cellular_Automata(const int wall_ratio,const int wall_effected,const int room_effected, int count){
+void Dungeon::Cellular_Automata(){
 	int wall_cnt = (this->dungeon[0].size()-2)*(this->dungeon.size()-2)*wall_ratio/100;
 	int cnt = 0;
 	while(cnt++<wall_cnt){
@@ -251,7 +269,7 @@ bool Dungeon::generateDungeon(){
 				break;
 				
 			case Dungeons::Celluar_Automata:
-				Cellular_Automata(20,4,7,7);
+				Cellular_Automata();
 				break;
 		}
 	}catch(int e){
@@ -276,3 +294,4 @@ int Dungeon::getHeight() const {
 	return this->height;
 }
 
+#endif
