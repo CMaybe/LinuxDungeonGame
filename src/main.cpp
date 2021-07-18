@@ -38,15 +38,16 @@ int main(int argc, char* argv[]) {
 			if (ch==RIGHT) dungeon.movePlayer(1,0);
 			if (ch==LEFT) dungeon.movePlayer(-1,0);
 			std::string buffer =  dungeon.getStringMap(); // 41
-			// for(int i = 0;i<buffer.length();i++){
-			// 	output((i/41)*82 + (i%41) +41) = buffer[i];
-			// }
 			Point player = dungeon.getPlayerPosition();
 
-			for(int i = player.y - 6,py=0;i <= player.y+6;i++,py++){
-				for(int j = player.x - 6,px=0;j <= player.x+6;j++,px++){
+			for(int i = player.y - 6,py=0;i <= player.y+6;i++,py+=3){
+				for(int j = player.x - 6,px=0;j <= player.x+6;j++,px+=3){
 					if(i<0 || j<0 || j>=dungeon.getWidth() || i>=dungeon.getHeight()) continue;
-					output(py*(dungeon.getWidth()*2+2)+px) = buffer[i*(dungeon.getWidth()+1)+j]; // x,y					
+					for(int t=0;t<3;t++){
+						for(int k=0;k<3;k++){
+							output((py+t)*(dungeon.getWidth()*2+2)+(px+k)) = buffer[i*(dungeon.getWidth()+1)+j]; // x,y
+						}
+					}
 					output(i*(dungeon.getWidth()*2+2)+(j + dungeon.getWidth()+1)) = buffer[i*(dungeon.getWidth()+1)+j]; // x,y
 				}	
 			}
