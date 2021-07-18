@@ -14,6 +14,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/bin)
 add_executable(Dungeon
 	src/main.cpp
 	${Dungeon_SOURCE_DIR}/DungeonGame/utill/Input.cpp
+	${Dungeon_SOURCE_DIR}/DungeonGame/utill/Output.cpp
 	${Dungeon_SOURCE_DIR}/DungeonGame/Dungeon/Dungeon.cpp
 )
 

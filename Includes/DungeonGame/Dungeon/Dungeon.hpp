@@ -34,6 +34,11 @@ namespace LinuxGame{
 		BSP,
 		Celluar_Automata
 	};
+	
+	typedef struct POINT{
+		int x;
+		int y;
+	}Point;
 
 	
 	class Dungeon{
@@ -52,6 +57,7 @@ namespace LinuxGame{
 		
 			virtual ~Dungeon(){};
 			const std::vector<std::vector<int>> & getDungeon() const;
+			std::string getStringMap();
 			bool generateDungeon();
 			void print();
 			void setPlayer(const int &x, const int & y);
@@ -65,7 +71,7 @@ namespace LinuxGame{
 			int getWidth() const;
 			int getHeight() const;
 		
-		
+			LinuxGame::Point getPlayerPosition() const;
 			
 
 	};

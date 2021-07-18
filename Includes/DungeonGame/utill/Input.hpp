@@ -33,8 +33,6 @@ namespace LinuxGame{
 	/* Read 1 character with echo */
 	char getche(void);
 	
-	void gotoxy(const int &x, const int & y);
-	
 	int kbhit (void);
 }
 

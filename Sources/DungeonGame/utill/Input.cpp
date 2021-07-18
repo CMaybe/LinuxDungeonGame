@@ -49,11 +49,6 @@ namespace LinuxGame{
 		return ch;
 	}
 
-	void gotoxy(const int &x, const int & y)
-	{
-		printf("%c[%d;%df",0x1B,y,x);
-	}
-	
 	int kbhit (void)
 	{
 		  struct timeval tv;

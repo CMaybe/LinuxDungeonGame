@@ -2,7 +2,7 @@
 #define LINUX_GAME_DUNGEON_CPP
 
 #include <DungeonGame/Dungeon/Dungeon.hpp>
-#include <DungeonGame/utill/Input.hpp>
+#include <DungeonGame/utill/Output.hpp>
 
 using namespace LinuxGame;
 
@@ -58,22 +58,22 @@ void Dungeon::print(){
 		for(int j = 0;j<this->dungeon[0].size();j++){
 			switch(this->dungeon[i][j]){
 				case NONE:
-					output+=" *";
+					output+="*";
 					break;
 				case ROOM:
-					output+="  ";
+					output+=" ";
 					break;
 				case TUNNEL:
-					output+=" `";
+					output+="`";
 					break;
 				case WALL:
-					output+=" .";
+					output+=".";
 					break;
 				case LINE:
-					output+=" +";
+					output+="+";
 					break;
 				case PLAYER:
-					output+=" a";
+					output+="a";
 			}
 		}
 		output+='\n';
@@ -324,6 +324,41 @@ void Dungeon::setPlayer(const int &x, const int & y){
 	preBlock = dungeon[playerY][playerX];
 	dungeon[playerY][playerX]=PLAYER;
 	
+}
+
+Point Dungeon::getPlayerPosition() const{
+	return {playerX,playerY};
+}
+
+std::string Dungeon::getStringMap()
+{
+	std::string output="";
+	gotoxy(0,0);
+	for(int i = 0;i<this->dungeon.size();i++){
+		for(int j = 0;j<this->dungeon[0].size();j++){
+			switch(this->dungeon[i][j]){
+				case NONE:
+					output+="*";
+					break;
+				case ROOM:
+					output+=" ";
+					break;
+				case TUNNEL:
+					output+="`";
+					break;
+				case WALL:
+					output+=".";
+					break;
+				case LINE:
+					output+="+";
+					break;
+				case PLAYER:
+					output+="a";
+			}
+		}
+		output+='\n';
+	}
+	return output;
 }
 
 #endif
