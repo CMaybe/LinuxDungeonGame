@@ -24,19 +24,14 @@ namespace LinuxGame{
 			void clear();
 			const std::string& getBuffer() const;
 		
-			// OutputBuffer operator+(const std::string& rhs);
 			OutputBuffer& operator+=(const std::string& rhs);
 			OutputBuffer& operator=(const std::string& rhs);
 
 			char& operator()(const int& idx);
 			const char& operator()(const int& idx) const;
 		
-			friend std::ostream& operator << (std::ostream& out, const LinuxGame::OutputBuffer &output);
 	};
 
 }
-
-
-
 
 #endif

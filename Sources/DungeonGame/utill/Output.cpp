@@ -6,7 +6,7 @@ namespace LinuxGame{
 
 	void gotoxy(const int &x, const int & y)
 	{
-		printf("%c[%d;%df",0x1B,y,x);
+		printf("%c[%d;%df",0x1B,y,x); // 사실 함수가 아닌 명령어한 작동입니다. \033[L;Cf 가 Lows,Columns으로 좌표를 이동시키는 명령어입니다. 
 	}
 	
 	OutputBuffer::OutputBuffer(){}
@@ -42,6 +42,8 @@ namespace LinuxGame{
 		size = 0;
 	}
 	
+	
+	// 문자열과 연산입니다.
 	OutputBuffer& OutputBuffer::operator=(const std::string& rhs){
 		this->buffer = rhs;
 		this->size = buffer.length();
@@ -57,10 +59,13 @@ namespace LinuxGame{
 		return this->buffer;
 	}
 
+	
+	// l - value 입니다.
 	char& OutputBuffer::operator()(const int& idx) {
 		return this->buffer[idx];
 	}
 
+	// r - value 입니다.
 	const char& OutputBuffer::operator()(const int& idx) const {
 		return this->buffer[idx];
 	}

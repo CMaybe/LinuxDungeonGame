@@ -12,27 +12,13 @@
 #define RIGHT 	67
 #define LEFT 	68
 
-
-
 namespace LinuxGame{
 
-	static struct termios old, newp;
+	static struct termios setting;
 	static bool init = false;
-	/* Initialize new terminal i/o settings */
-	void initTermios(int echo);
-
-	/* Restore old terminal i/o settings */
-	void resetTermios(void);
-
-	/* Read 1 character - echo defines echo mode */
-	char getch_(int echo);
-
-	/* Read 1 character without echo */
-	char getch(void);
-
-	/* Read 1 character with echo */
-	char getche(void);
 	
+	void initTermios(void);
+	char getch(void);
 	int kbhit (void);
 }
 
