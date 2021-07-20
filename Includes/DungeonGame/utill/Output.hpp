@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 namespace LinuxGame{
 	void gotoxy(const int &x, const int & y);

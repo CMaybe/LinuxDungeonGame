@@ -21,6 +21,8 @@ namespace LinuxGame{
 		
 		if(!kbhit()) return ch; // 키보드 입력이 없다면 0(NULL)을 return합니다.
 		ch = getchar(); // 입력이 있었다면 입력값을 받아옵니다.
+		printf("%c\n",ch);
+		if(ch!=27) return ch;
 		while(!(ch == UP || ch==DOWN || ch==LEFT || ch==RIGHT)){
 			ch = getchar(); // 쓸모없는 값을 지우고 우리가 원하는 값만 받아옵니다.
 		}

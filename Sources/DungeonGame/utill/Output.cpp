@@ -6,7 +6,7 @@ namespace LinuxGame{
 
 	void gotoxy(const int &x, const int & y)
 	{
-		printf("%c[%d;%df",0x1B,y,x); // 사실 함수가 아닌 명령어한 작동입니다. \033[L;Cf 가 Lows,Columns으로 좌표를 이동시키는 명령어입니다. 
+		printf("%c[%d;%df",0x1B,y,x); // 사실 함수가 아닌 명령어를 통한 작동입니다. \033[L;Cf 가 Lows,Columns으로 좌표를 이동시키는 명령어입니다. 
 	}
 	
 	OutputBuffer::OutputBuffer(){}
